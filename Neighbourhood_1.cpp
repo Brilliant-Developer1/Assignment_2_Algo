@@ -58,74 +58,50 @@
 #include <valarray>
 #include <vector>
 
+// #include<bits/stdc++.h>
 using namespace std;
 
-const long long int N = 1e5 + 5;
-vector<long long int> adj[N];
+const int N = 1e5 + 5;
+vector<int> adj[N];
 bool visited[N];
-
-void dfs(long long int u, long long int &cmpSize)
-{
-    visited[u] = true;
-    cmpSize++;
-
-    for (long long int v : adj[u])
-    {
-        if (visited[v])
-            continue;
-        dfs(v, cmpSize);
-    }
-}
 
 int main()
 {
-    long long int n = 1000, m, o;
-    cin >> o >> m;
 
-    for (long long int i = 0; i < m; i++)
+    int n, m;
+    cin >> n >> m;
+
+    for (int i = 0; i < m; i++)
     {
-        long long int u, v;
+        int u, v;
         cin >> u >> v;
 
         adj[u].push_back(v);
+
         adj[v].push_back(u);
     }
 
-    vector<long long int> cmp;
+    int k;
+    cin >> k;
 
-    for (long long int i = 1; i <= n; i++)
+    int count = 0;
+
+    for (int v : adj[k])
     {
-        if (visited[i])
-            continue;
-        long long int cmpSize = 0;
-        dfs(i, cmpSize);
-        cmp.push_back(cmpSize);
+        count++;
     }
 
-    sort(cmp.begin(), cmp.end());
-
-    for (long long int s : cmp)
-    {
-        if (s == 1)
-            continue;
-        else
-            cout << s << " ";
-    }
-
+    cout << count << endl;
     return 0;
 }
 /*
-cycle
-8
 7
+5
 1 2
+1 3
 2 3
-3 5
 2 4
-6 7
-6 8
-7 8
+5 6
 
-no cycle
-
+Number of CC: 3
 */

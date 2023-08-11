@@ -58,59 +58,51 @@
 #include <vector>
 
 // #include<bits/stdc++.h>
+
 using namespace std;
 
-const long long int N = 1e5 + 5;
-vector<long long int> adj[N];
+const int N = 1e5 + 5;
+vector<int> adj[N];
 bool visited[N];
 
-void dfs(long long int u, long long int &cmpSize)
+void dfs(int u, int &count)
 {
     visited[u] = true;
-    cmpSize++;
-
-    for (long long int v : adj[u])
+    count++;
+    for (int v : adj[u])
     {
         if (visited[v])
             continue;
-        dfs(v, cmpSize);
+        dfs(v, count);
     }
 }
 
 int main()
 {
-    long long int n = 1000, m, o;
-    cin >> o >> m;
 
-    for (long long int i = 0; i < m; i++)
+    int n, m;
+    cin >> n >> m;
+
+    for (int i = 0; i < m; i++)
     {
-        long long int u, v;
+        int u, v;
         cin >> u >> v;
-
         adj[u].push_back(v);
-        adj[v].push_back(u);
     }
 
-    vector<long long int> cmp;
+    int k;
+    cin >> k;
 
-    for (long long int i = 1; i <= n; i++)
+    int count = 0;
+
+    if (!adj[k].empty())
     {
-        if (visited[i])
-            continue;
-        long long int cmpSize = 0;
-        dfs(i, cmpSize);
-        cmp.push_back(cmpSize);
+        dfs(k, count);
+        if (visited[k]) // check if k is visited more than once due to a cycle
+            count--;    // exclude k from the count
     }
 
-    sort(cmp.begin(), cmp.end());
-
-    for (long long int s : cmp)
-    {
-        if (s == 1)
-            continue;
-        else
-            cout << s << " ";
-    }
+    cout << count << endl;
 
     return 0;
 }
@@ -130,60 +122,50 @@ const int N = 1e5 + 5;
 vector<int> adj[N];
 bool visited[N];
 
-void dfs(int u, int &cmpSize)
+void dfs(int u, int &count)
 {
     visited[u] = true;
-    cmpSize++;
-
+    count++;
     for (int v : adj[u])
     {
-        if (!visited[v])
-        {
-            dfs(v, cmpSize);
-        }
+        if (visited[v])
+            continue;
+        dfs(v, count);
     }
 }
 
 int main()
 {
-    int n = 1000, m;
-    cin.ignore();
-    cin >> m;
+
+    int n, m;
+    cin >> n >> m;
 
     for (int i = 0; i < m; i++)
     {
         int u, v;
         cin >> u >> v;
-
         adj[u].push_back(v);
-        adj[v].push_back(u);
     }
 
-    vector<int> cmp;
+    int k;
+    cin >> k;
 
-    for (int i = 1; i <= n; i++)
+    int count = 0;
+
+    if (!adj[k].empty())
     {
-        if (!visited[i])
-        {
-            int cmpSize = 0;
-            dfs(i, cmpSize);
-            cmp.push_back(cmpSize);
-        }
+        dfs(k, count);
     }
 
-    sort(cmp.begin(), cmp.end());
-
-    for (int size : cmp)
-    {
-        if (size == 1)
-            continue;
-        else
-            cout << size << " ";
-    }
+    cout << count - 1 << endl;
 
     return 0;
 }
-please check and solve the problem of not receiving any output for this input:
+
+
+please check all the possible test casses for this and give me back the revised code, Thanks
+
+this input:
 10 8
 999 1000
 100 500
